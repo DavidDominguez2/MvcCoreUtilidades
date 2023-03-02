@@ -26,7 +26,10 @@ namespace MvcCoreUtilidades.Controllers {
                 await fichero.CopyToAsync(stream);
             }
 
+
+
             ViewData["MENSAJE"] = "Fichero subido a " + path;
+            ViewData["URL"] = "<a href=''>Mi fichero</a>";
             return View();
         }
     }
