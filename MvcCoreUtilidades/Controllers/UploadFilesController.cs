@@ -27,7 +27,6 @@ namespace MvcCoreUtilidades.Controllers {
             }
 
 
-
             ViewData["MENSAJE"] = "Fichero subido a " + path;
             ViewData["URL"] = "<a href=''>Mi fichero</a>";
             return View();
