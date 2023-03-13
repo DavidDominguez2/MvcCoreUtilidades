@@ -1,0 +1,35 @@
+﻿<h1>Vistas parciales Ajax</h1>
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            $("#btnCargarcoches").click(function(){
+                $("#contenido").load("/Coches/_CochesPartial");
+            })
+            $("#botonbuscarcoche").click(function(){
+                var idCoche = $("#cajaidcoche").val();
+                //Controller/Action?id=1
+                //COntroller/Action?id=1&otro=valor
+                //Controller/Action/1 => Esto solo si se llama {id} EL PARAMETRO
+                var request = "/Coches/_DetailsCoche?idcoche=" + idCoche;
+                $("#contenidodetails").load(request);
+            })
+        })
+    </script>
+}
+
+<label>Introduzca ID: </label>
+<input type="text" id="cajaidcoche" class="form-control"/>
+<button id="botonbuscarcoche" class="btn btn-info">
+    Buscar coche
+</button>
+
+<div id="contenidodetails" style="background-color:lightcoral"></div>
+
+
+<button id="btnCargarcoches" class="btn btn-danger">
+    Cargar coches Ajax
+</button>
+
+<div id="contenido" style="background-color: lightgreen"></div>
+
+

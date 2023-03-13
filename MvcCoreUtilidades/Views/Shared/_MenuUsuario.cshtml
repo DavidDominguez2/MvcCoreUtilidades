@@ -1,0 +1,25 @@
+﻿@{
+    string usuario = Context.Session.GetString("USUARIO");
+}
+
+@if(usuario == null) {
+    <li class="nav-item">
+        <a asp-controller="Home" asp-action="Login">Login</a>
+    </li>
+} else {
+    <li class="nav-item">
+        <a asp-controller="Home" asp-action="CerrarSesion" class="nav-link">
+            Cerrar Sesión @usuario
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Perfil</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Mis pedidos</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Comentarios</a>
+    </li>
+    @await Component.InvokeAsync("MenuCoches")
+}

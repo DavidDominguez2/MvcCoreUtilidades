@@ -1,4 +1,5 @@
 using MvcCoreUtilidades.Helpers;
+using MvcCoreUtilidades.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddResponseCaching();
 builder.Services.AddMemoryCache();
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddTransient<RepositoryCoches>();
 builder.Services.AddSingleton<HelperPathProvider>();
 builder.Services.AddTransient<HelperUploadFiles>();
 builder.Services.AddSingleton<HelperMails>();
@@ -28,6 +33,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.UseResponseCaching();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
