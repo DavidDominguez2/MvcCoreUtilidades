@@ -8,7 +8,10 @@
 </form>
 
 
-<img src="~/uploads/index_vtChallenge.png" style="width: 400px" />
+@if(ViewData["PATH"] != null) {
+    <img src="@ViewData["PATH"]" style="width: 400px" />
+}
+
 
 <a href=""></a>
 

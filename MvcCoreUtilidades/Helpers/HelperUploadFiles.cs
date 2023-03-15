@@ -4,18 +4,23 @@ namespace MvcCoreUtilidades.Helpers {
     public class HelperUploadFiles {
 
         private HelperPathProvider helperPath;
-        public HelperUploadFiles(HelperPathProvider pathProvider) {
+        private IWebHostEnvironment hostEnv;
+
+        public HelperUploadFiles(HelperPathProvider pathProvider, IWebHostEnvironment hostEnv) {
             this.helperPath = pathProvider;
+            this.hostEnv = hostEnv;
         }
 
-        public async Task<string> UploadFileAsync(IFormFile file, Folders folder) {
-            string fileName = file.FileName;
-            string path = this.helperPath.MapPath(fileName, folder);
+        public async Task<string> UploadFileAsync(IFormFile file,string fileName, string host, Folders folder) {
+            string carpeta = (folder == Folders.Images) ? "images" : "temp";
+            string rootPath = this.hostEnv.WebRootPath;
+            string path = Path.Combine(rootPath,carpeta,fileName);
 
             using (Stream stream = new FileStream(path, FileMode.Create)) {
                 await file.CopyToAsync(stream);
+                return Path.Combine(host, carpeta, fileName);
             }
-            return path;
+    
         }
 
         public async Task<List<string>> UploadFilesAsync(List<IFormFile> files, Folders folder) {

@@ -24,7 +24,7 @@ namespace MvcCoreUtilidades.Controllers {
                     List<string> paths = await this.helperUploadFiles.UploadFilesAsync(files, Folders.Temporal);
                     await this.helperMails.SendMailAsync(para, asunto, mensaje, paths);
                 } else {
-                    string path = await this.helperUploadFiles.UploadFileAsync(files[0], Folders.Temporal);
+                    string path = await this.helperUploadFiles.UploadFileAsync(files[0],"","", Folders.Temporal);
                     await this.helperMails.SendMailAsync(para, asunto, mensaje, path);
                 }
             } else {

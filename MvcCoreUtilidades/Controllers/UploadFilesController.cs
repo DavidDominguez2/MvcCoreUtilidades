@@ -6,11 +6,11 @@ namespace MvcCoreUtilidades.Controllers {
     public class UploadFilesController : Controller {
 
 
-        private HelperPathProvider helperPathProvider;
+        private HelperUploadFiles helperUpload;
 
-        public UploadFilesController(HelperPathProvider helperPathProvider) {
+        public UploadFilesController(HelperUploadFiles helperUpload) {
 
-            this.helperPathProvider = helperPathProvider;
+            this.helperUpload = helperUpload;
         }
 
         public IActionResult SubirFicheros() {
@@ -19,16 +19,11 @@ namespace MvcCoreUtilidades.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> SubirFicheros(IFormFile fichero) {
-            string fileName = fichero.FileName;
-            string path = this.helperPathProvider.MapPath(fileName, Folders.Uploads);
-
-            using (Stream stream = new FileStream(path, FileMode.Create)) {
-                await fichero.CopyToAsync(stream);
-            }
-
-
-            ViewData["MENSAJE"] = "Fichero subido a " + path;
-            ViewData["URL"] = "<a href=''>Mi fichero</a>";
+           string protocol  = HttpContext.Request.IsHttps ? "https://" : "http://";
+            string domainName = HttpContext.Request.Host.Value.ToString();
+            string url = protocol + domainName;
+            string path = await this.helperUpload.UploadFileAsync(fichero, fichero.FileName, url, Folders.Images);
+            ViewData["PATH"] = path;
             return View();
         }
     }
